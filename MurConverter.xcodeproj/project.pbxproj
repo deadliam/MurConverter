@@ -7,19 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6502060E28B94A6800057D6F /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6502060D28B94A6800057D6F /* SettingsViewController.swift */; };
+		6502061128B9619600057D6F /* convert.sh in Resources */ = {isa = PBXBuildFile; fileRef = 6502061028B9619600057D6F /* convert.sh */; };
+		6502061328B961BC00057D6F /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6502061228B961BC00057D6F /* Utils.swift */; };
+		6502061528BA4D9100057D6F /* DropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6502061428BA4D9100057D6F /* DropView.swift */; };
 		658EA9B1289FE99D00C71A36 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658EA9B0289FE99D00C71A36 /* AppDelegate.swift */; };
-		658EA9B3289FE99D00C71A36 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658EA9B2289FE99D00C71A36 /* ViewController.swift */; };
 		658EA9B5289FE99E00C71A36 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 658EA9B4289FE99E00C71A36 /* Assets.xcassets */; };
 		658EA9B8289FE99E00C71A36 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 658EA9B6289FE99E00C71A36 /* Main.storyboard */; };
+		658EA9C0289FEA4200C71A36 /* StatusMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658EA9BF289FEA4200C71A36 /* StatusMenuController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6502060D28B94A6800057D6F /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		6502061028B9619600057D6F /* convert.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = convert.sh; sourceTree = "<group>"; };
+		6502061228B961BC00057D6F /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		6502061428BA4D9100057D6F /* DropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropView.swift; sourceTree = "<group>"; };
 		658EA9AD289FE99D00C71A36 /* MurConverter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MurConverter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		658EA9B0289FE99D00C71A36 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		658EA9B2289FE99D00C71A36 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		658EA9B4289FE99E00C71A36 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		658EA9B7289FE99E00C71A36 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		658EA9B9289FE99E00C71A36 /* MurConverter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MurConverter.entitlements; sourceTree = "<group>"; };
+		658EA9BF289FEA4200C71A36 /* StatusMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusMenuController.swift; sourceTree = "<group>"; };
+		658EA9C1289FF0D100C71A36 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +42,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6502060F28B9615C00057D6F /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				6502061028B9619600057D6F /* convert.sh */,
+			);
+			path = Scripts;
+			sourceTree = "<group>";
+		};
 		658EA9A4289FE99D00C71A36 = {
 			isa = PBXGroup;
 			children = (
@@ -52,11 +69,16 @@
 		658EA9AF289FE99D00C71A36 /* MurConverter */ = {
 			isa = PBXGroup;
 			children = (
+				6502060F28B9615C00057D6F /* Scripts */,
+				658EA9C1289FF0D100C71A36 /* Info.plist */,
 				658EA9B0289FE99D00C71A36 /* AppDelegate.swift */,
-				658EA9B2289FE99D00C71A36 /* ViewController.swift */,
+				658EA9BF289FEA4200C71A36 /* StatusMenuController.swift */,
+				6502060D28B94A6800057D6F /* SettingsViewController.swift */,
+				6502061428BA4D9100057D6F /* DropView.swift */,
 				658EA9B4289FE99E00C71A36 /* Assets.xcassets */,
 				658EA9B6289FE99E00C71A36 /* Main.storyboard */,
 				658EA9B9289FE99E00C71A36 /* MurConverter.entitlements */,
+				6502061228B961BC00057D6F /* Utils.swift */,
 			);
 			path = MurConverter;
 			sourceTree = "<group>";
@@ -120,6 +142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				658EA9B5289FE99E00C71A36 /* Assets.xcassets in Resources */,
+				6502061128B9619600057D6F /* convert.sh in Resources */,
 				658EA9B8289FE99E00C71A36 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -131,8 +154,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				658EA9B3289FE99D00C71A36 /* ViewController.swift in Sources */,
+				658EA9C0289FEA4200C71A36 /* StatusMenuController.swift in Sources */,
+				6502060E28B94A6800057D6F /* SettingsViewController.swift in Sources */,
 				658EA9B1289FE99D00C71A36 /* AppDelegate.swift in Sources */,
+				6502061328B961BC00057D6F /* Utils.swift in Sources */,
+				6502061528BA4D9100057D6F /* DropView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,6 +301,7 @@
 				DEVELOPMENT_TEAM = J7CHKBB62N;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MurConverter/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -302,6 +329,7 @@
 				DEVELOPMENT_TEAM = J7CHKBB62N;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MurConverter/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;

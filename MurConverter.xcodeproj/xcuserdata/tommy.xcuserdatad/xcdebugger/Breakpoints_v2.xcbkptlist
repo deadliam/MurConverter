@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "24829A11-6521-4423-8FD5-916EFDF4FCB7"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F1C1D89C-EAB7-479F-9062-CF86A38E531C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MurConverter/DragView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
+            landmarkName = "performDragOperation(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FC7FE07C-3E80-4468-9645-C1342CE5AB40"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MurConverter/SettingsViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
+            landmarkName = "composeArguments()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "FC7FE07C-3E80-4468-9645-C1342CE5AB40 - b16ccb49bcc1d131"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MurConverter.SettingsViewController.composeArguments() -&gt; Swift.Array&lt;Swift.String&gt;"
+                  moduleName = "MurConverter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tommy/Projects/XCode_projects/MurConverter/MurConverter/MurConverter/SettingsViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "139"
+                  endingLineNumber = "139"
+                  offsetFromSymbolStart = "760">
+               </Location>
+               <Location
+                  uuid = "FC7FE07C-3E80-4468-9645-C1342CE5AB40 - b16ccb49bcc1d131"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MurConverter.SettingsViewController.composeArguments() -&gt; Swift.Array&lt;Swift.String&gt;"
+                  moduleName = "MurConverter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tommy/Projects/XCode_projects/MurConverter/MurConverter/MurConverter/SettingsViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "139"
+                  endingLineNumber = "139"
+                  offsetFromSymbolStart = "832">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
