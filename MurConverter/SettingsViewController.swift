@@ -16,7 +16,9 @@ class SettingsViewController: NSViewController {
     var imageWidth: Int?
     var filesPath: String?
     
-    @IBOutlet var titleTextLabel: NSTextField!
+    @IBOutlet var dropHereLabel: NSTextField!
+    @IBOutlet var rawImagesPathLabel: NSTextField!
+    @IBOutlet var rawImagesPathTitleLabel: NSTextField!
     
     @IBOutlet var filesFormatComboBox: NSComboBox!
     @IBOutlet var filesFormatLabel: NSTextField!
@@ -31,8 +33,11 @@ class SettingsViewController: NSViewController {
     @IBOutlet var imageWidthLabel: NSTextField!
     
     @IBOutlet var convertButton: NSButton!
+    @IBOutlet var resultLabel: NSTextField!
     
     @IBOutlet var errorLabel: NSTextField!
+    
+    @IBOutlet var progressIndicatior: NSProgressIndicator!
   
     @IBOutlet var dropView: DropView!
     
@@ -42,27 +47,40 @@ class SettingsViewController: NSViewController {
     }
     
     enum MCErrorType: String {
-        case MCErrorFilesPathIsRequired = "Error! Files path is required field"
+        case MCErrorFilesPathIsRequired = "Files path is required. Drop folder"
         case MCErrorFilesExtensionIsRequired = "Error! Extension is required"
         case MCErrorFileFormatHasNoCompression = "Error! Leave max size field empty"
         case MCErrorFilesPathDoesntExist = "Error! Files path doesn't exist"
+        case MCErrorUnknown = "Something went wrong :("
     }
     
     func setupUI() {
+        progressIndicatior.isHidden = true
+        progressIndicatior.isIndeterminate = true
+        progressIndicatior.style = .spinning
+        
+        resultLabel.isHidden = true
+        convertButton.bezelColor = .systemGray
+        dropHereLabel.isHidden = false
         errorLabel.isHidden = true
+        rawImagesPathLabel.isHidden = true
+        rawImagesPathTitleLabel.isHidden = true
         filesFormatComboBox.selectItem(at: 0)
         convertButton.bezelColor = .systemGray
+        rawImagesPathLabel.stringValue = ""
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        dropView.onDrag = { [weak self] path in
+        dropView.onDrop = { [weak self] path in
             self?.storeDropFilesPath(path: path)
         }
     }
     
     func collectData() -> Bool {
+        
+        errorLabel.isHidden = true
         
         guard let format = filesFormatComboBox.selectedCell() else {
             printError(error: MCErrorType.MCErrorFilesExtensionIsRequired.rawValue)
@@ -79,6 +97,11 @@ class SettingsViewController: NSViewController {
             return false
         }
         
+        if filesPath == nil || filesPath == "" {
+            printError(error: MCErrorType.MCErrorFilesPathIsRequired.rawValue)
+            return false
+        }
+        
         imageHight = imageHightTextField.integerValue
         imageWidth = imageWidthTextField.integerValue
         
@@ -87,6 +110,10 @@ class SettingsViewController: NSViewController {
     
     func storeDropFilesPath(path: String) {
         filesPath = path
+        rawImagesPathLabel.isHidden = false
+        rawImagesPathLabel.stringValue = path
+        rawImagesPathTitleLabel.isHidden = false
+        dropHereLabel.isHidden = true
     }
 }
 
@@ -108,16 +135,28 @@ extension SettingsViewController {
 
     @IBAction func convert(_ sender: NSButton) {
         
+        resultLabel.isHidden = true
+        
         if !collectData() {
             return
         }
         
+        progressIndicatior.isHidden = false
+        progressIndicatior.startAnimation(nil)
+        
         let result = performConvert()
+        
         if result {
             sender.bezelColor = .green
+            resultLabel.isHidden = false
+            resultLabel.stringValue = "Done"
         } else {
             sender.bezelColor = .red
+            printError(error: MCErrorType.MCErrorUnknown.rawValue)
         }
+        
+        progressIndicatior.isHidden = true
+        progressIndicatior.stopAnimation(nil)
     }
     
     func printError(error: String) {
@@ -143,7 +182,6 @@ extension SettingsViewController {
         args.append(Keys.format.rawValue)
         args.append(format)
         
-//        print("\(dropFilesPath)")
         guard var path = filesPath else {
             return []
         }

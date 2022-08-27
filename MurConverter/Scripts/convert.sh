@@ -79,7 +79,7 @@ echo "----------------------------------"
 
 # Default values
 RESULT_DIR="result-images"
-RESULT_FORMAT="jpeg"
+#RESULT_FORMAT="jpeg"
 
 if [ $RESULT_FORMAT == "jpg" ]; then
 	RESULT_FORMAT="jpeg"

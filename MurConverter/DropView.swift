@@ -9,7 +9,10 @@ import Cocoa
 
 class DropView: NSView {
     
-    var onDrag: ((String) -> Void)?
+    var onDrop: ((String) -> Void)?
+    
+    var rawImagesPath: String = ""
+    
 //    let expectedExt = ["jpeg"]  //file extensions allowed for Drag&Drop (example: "jpg","png","docx", etc..)
 
     required init?(coder: NSCoder) {
@@ -69,10 +72,9 @@ class DropView: NSView {
         guard let pasteboard = sender.draggingPasteboard.propertyList(forType: NSPasteboard.PasteboardType(rawValue: "NSFilenamesPboardType")) as? NSArray,
               let path = pasteboard[0] as? String
         else { return false }
-
-        //GET YOUR FILE PATH !!!
+        
         print("FilePath: \(path)")
-        onDrag?(path)
+        onDrop?(path)
         
         return true
     }
