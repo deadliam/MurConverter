@@ -33,6 +33,8 @@ class SettingsViewController: NSViewController {
     @IBOutlet var convertButton: NSButton!
     
     @IBOutlet var errorLabel: NSTextField!
+  
+    @IBOutlet var dropView: DropView!
     
     enum FilesExtensions: String {
         case jpeg
@@ -55,6 +57,9 @@ class SettingsViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        dropView.onDrag = { [weak self] path in
+            self?.storeDropFilesPath(path: path)
+        }
     }
     
     func collectData() -> Bool {

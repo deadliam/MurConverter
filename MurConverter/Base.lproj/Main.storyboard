@@ -831,6 +831,7 @@
                     </view>
                     <connections>
                         <outlet property="convertButton" destination="RS8-eN-OwV" id="qv9-7e-tmF"/>
+                        <outlet property="dropView" destination="LCz-Vp-hcz" id="51c-gB-rZ1"/>
                         <outlet property="errorLabel" destination="U88-GF-EbV" id="isW-3l-uCC"/>
                         <outlet property="filesFormatComboBox" destination="5nL-0N-qFU" id="9U5-7s-HQs"/>
                         <outlet property="filesFormatLabel" destination="pVr-SG-IpV" id="pdy-U7-laG"/>

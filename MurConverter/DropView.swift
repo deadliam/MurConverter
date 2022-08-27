@@ -9,7 +9,7 @@ import Cocoa
 
 class DropView: NSView {
     
-    var filePath: String?
+    var onDrag: ((String) -> Void)?
 //    let expectedExt = ["jpeg"]  //file extensions allowed for Drag&Drop (example: "jpg","png","docx", etc..)
 
     required init?(coder: NSCoder) {
@@ -72,7 +72,7 @@ class DropView: NSView {
 
         //GET YOUR FILE PATH !!!
         print("FilePath: \(path)")
-        self.filePath = path
+        onDrag?(path)
         
         return true
     }
