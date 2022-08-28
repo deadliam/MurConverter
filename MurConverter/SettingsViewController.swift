@@ -12,7 +12,7 @@ class SettingsViewController: NSViewController {
     
     var filesFormat: String?
     var maxSize: Int?
-    var imageHight: Int?
+    var imageHeight: Int?
     var imageWidth: Int?
     var filesPath: String?
     
@@ -26,14 +26,16 @@ class SettingsViewController: NSViewController {
     @IBOutlet var maxSizeTextField: NSTextField!
     @IBOutlet var maxSizeLabel: NSTextField!
     
-    @IBOutlet var imageHightTextField: NSTextField!
-    @IBOutlet var imageHightLabel: NSTextField!
+    @IBOutlet var imageHeightTextField: NSTextField!
+    @IBOutlet var imageHeightLabel: NSTextField!
     
     @IBOutlet var imageWidthTextField: NSTextField!
     @IBOutlet var imageWidthLabel: NSTextField!
     
     @IBOutlet var convertButton: NSButton!
     @IBOutlet var resultLabel: NSTextField!
+    
+    @IBOutlet var grayscaleCheckbox: NSButton!
     
     @IBOutlet var errorLabel: NSTextField!
     
@@ -44,6 +46,11 @@ class SettingsViewController: NSViewController {
     enum FilesExtensions: String {
         case jpeg
         case png
+    }
+    
+    enum ActionButtonStates: String {
+        case readyToConvert = "Convert"
+        case convertProcessing = "Converting..."
     }
     
     enum MCErrorType: String {
@@ -59,6 +66,9 @@ class SettingsViewController: NSViewController {
         progressIndicatior.isIndeterminate = true
         progressIndicatior.style = .spinning
         
+        grayscaleCheckbox.setButtonType(.switch)
+        grayscaleCheckbox.state = .off
+        
         resultLabel.isHidden = true
         convertButton.bezelColor = .systemGray
         dropHereLabel.isHidden = false
@@ -66,7 +76,11 @@ class SettingsViewController: NSViewController {
         rawImagesPathLabel.isHidden = true
         rawImagesPathTitleLabel.isHidden = true
         filesFormatComboBox.selectItem(at: 0)
+
         convertButton.bezelColor = .systemGray
+        convertButton.setButtonType(.momentaryChange)
+        convertButton.title = ActionButtonStates.readyToConvert.rawValue
+        
         rawImagesPathLabel.stringValue = ""
     }
     
@@ -75,6 +89,7 @@ class SettingsViewController: NSViewController {
         setupUI()
         dropView.onDrop = { [weak self] path in
             self?.storeDropFilesPath(path: path)
+            self?.resultLabel.isHidden = true
         }
     }
     
@@ -102,7 +117,7 @@ class SettingsViewController: NSViewController {
             return false
         }
         
-        imageHight = imageHightTextField.integerValue
+        imageHeight = imageHeightTextField.integerValue
         imageWidth = imageWidthTextField.integerValue
         
         return true
@@ -143,20 +158,29 @@ extension SettingsViewController {
         
         progressIndicatior.isHidden = false
         progressIndicatior.startAnimation(nil)
+        sender.isEnabled = false
+        sender.title = ActionButtonStates.convertProcessing.rawValue
         
         let result = performConvert()
         
         if result {
-            sender.bezelColor = .green
+//            sender.contentTintColor = .green
+            
             resultLabel.isHidden = false
             resultLabel.stringValue = "Done"
+            // enable to Done label disaappear after timer
+//            Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { (_) in
+//                self.resultLabel.isHidden = true
+//            }
         } else {
-            sender.bezelColor = .red
+//            sender.bezelColor = .red
             printError(error: MCErrorType.MCErrorUnknown.rawValue)
         }
         
         progressIndicatior.isHidden = true
         progressIndicatior.stopAnimation(nil)
+        sender.isEnabled = true
+        sender.title = ActionButtonStates.readyToConvert.rawValue
     }
     
     func printError(error: String) {
@@ -165,56 +189,191 @@ extension SettingsViewController {
         errorLabel.stringValue = error
     }
     
-    enum Keys: String {
-        case sourceDir = "--source-dir"
-        case size = "--size"
-        case format = "--format"
-        case hight = "--hight"
-        case width = "--width"
+    func getFilesPaths(url: URL) -> [String]? {
+        var paths: [String] = []
+        var urls: [URL] = []
+        do {
+            urls = try FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
+
+        } catch {
+            return nil
+        }
+        let filesOnlyUrls = urls.filter { (url) -> Bool in
+            do {
+                let resourceValues = try url.resourceValues(forKeys: [.isDirectoryKey])
+                return !resourceValues.isDirectory!
+            } catch {
+                return false
+                
+            }
+        }
+        paths = filesOnlyUrls.map({ $0.path })
+        return paths
     }
     
-    func composeArguments() -> [String] {
-        var args: [String] = []
+    func gatherRawImages() -> [Image]? {
         
+        var rawImages: [Image] = []
+        guard let path = filesPath else {
+            return nil
+        }
         guard let format = filesFormat else {
-            return []
-        }
-        args.append(Keys.format.rawValue)
-        args.append(format)
-        
-        guard var path = filesPath else {
-            return []
-        }
-        args.append(Keys.sourceDir.rawValue)
-        path = path.replacingOccurrences(of: " ", with: "%%%")
-        args.append("\(path)")
-        
-        if let size = maxSize {
-            if size != 0 {
-                args.append(Keys.size.rawValue)
-                args.append("\(size)")
-            }
+            return nil
         }
         
-        if let hight = imageHight {
-            if hight != 0 {
-                args.append(Keys.hight.rawValue)
-                args.append("\(hight)")
-            }
+        var isGrayscale = false
+        if grayscaleCheckbox.state == .on {
+            isGrayscale = true
         }
         
-        if let width = imageWidth {
-            if width != 0 {
-                args.append(Keys.width.rawValue)
-                args.append("\(width)")
-            }
-        }
+        let paths = getFilesPaths(url: URL(fileURLWithPath: path))
         
+        let resultImagesFolder = createResultFolder(at: URL(fileURLWithPath: path), withName: format)
+        paths?.forEach({
+            let image = Image(sourcePath: $0,
+                              resultPathFolder: resultImagesFolder,
+                              resultExtension: format,
+                              maxSize: maxSize,
+                              hight: imageHeight,
+                              width: imageWidth,
+                              isGrayscale: isGrayscale)
+            rawImages.append(image)
+        })
+        
+        return rawImages
+    }
+    
+    func composeArguments(image: Image) -> [String] {
+        var args: [String] = []
+        // 1
+        args.append(image.sourcePath.replacingOccurrences(of: " ", with: "%%%"))
+        // 2
+        args.append(image.resultPath.replacingOccurrences(of: " ", with: "%%%"))
+        // 3
+        args.append(image.resultExtension)
+        // 4
+        var isGrayscaleLiteral = "false"
+        if image.isGrayscale {
+            isGrayscaleLiteral = "true"
+        }
+        args.append(isGrayscaleLiteral)
+        // 5
+        args.append(image.height != nil ? "\(image.height!)" : " ")
+        // 6
+        args.append(image.width != nil ? "\(image.width!)" : " ")
+       
         return args
     }
     
+    func checkImageSize(image: Image) -> UInt64 {
+        let filePath = image.resultPath
+        var fileSize : UInt64 = 200
+
+        do {
+            //return [FileAttributeKey : Any]
+            let attr = try FileManager.default.attributesOfItem(atPath: filePath)
+            fileSize = attr[FileAttributeKey.size] as! UInt64
+
+            //if you convert to NSDictionary, you can get file size old way as well.
+            let dict = attr as NSDictionary
+            fileSize = dict.fileSize()
+        } catch {
+            print("Error: \(error)")
+        }
+        return fileSize
+    }
+    
+    func sizeDoesntMeetsExpectations(expected: Int, actual: Int) -> Bool {
+        return actual >= expected
+    }
+    
+    func createResultFolder(at: URL, withName: String) -> String {
+        let date = Date()
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd--HH-mm-ss"
+        let dateString = df.string(from: date)
+        let resultImagesDirectory = "\(withName)-\(dateString)"
+        do {
+            try FileManager.default.createDirectory(at: at .appendingPathComponent(resultImagesDirectory), withIntermediateDirectories: false)
+        } catch {
+            print("Can't create dir at: \(at.path) with error: \(error)")
+        }
+        return resultImagesDirectory
+    }
+    
     func performConvert() -> Bool {
-        let arguments = composeArguments()
-        return Utils.runScriptFromBundle(scriptName: "convert.sh", args: arguments)
+        
+        guard let rawImages = gatherRawImages() else {
+            return false
+        }
+        
+        var result = true
+        for image in rawImages {
+            var quality = 100
+            var actualSize = 200
+            var expectedSize = 200
+            if let size = image.maxSize, image.maxSize != 0 {
+                expectedSize = size
+            }
+           
+            while sizeDoesntMeetsExpectations(expected: expectedSize, actual: actualSize) {
+                var arguments = composeArguments(image: image)
+                if image.resultExtension == "jpeg" {
+                    // 7 argument
+                    arguments.append("\(quality)")
+                } else {
+                    arguments.append("0")
+                    actualSize = 0
+                }
+                let res = Utils.runScriptFromBundle(scriptName: "convert-image.sh", args: arguments)
+                
+                if !res {
+                    result = false
+                    actualSize = 0
+                } else {
+                    actualSize = Int(checkImageSize(image: image)) / 1000000
+                    quality -= 3
+                }
+            }
+        }
+        return result
+    }
+}
+
+class Image {
+    
+    let sourcePath: String
+    let resultPath: String
+    let resultExtension: String
+    let maxSize: Int?
+    let height: Int?
+    let width: Int?
+    let isGrayscale: Bool
+    
+    init(sourcePath: String, resultPathFolder: String, resultExtension: String, maxSize: Int?, hight: Int?, width: Int?, isGrayscale: Bool) {
+        self.sourcePath = sourcePath
+        self.resultExtension = resultExtension
+        let sourceURL = URL(fileURLWithPath: sourcePath)
+        let resultURL = (sourceURL.deletingLastPathComponent()
+            .appendingPathComponent(resultPathFolder)
+            .appendingPathComponent(sourcePath.fileName()
+                .appending(".")
+                .appending(resultExtension)))
+        self.resultPath = resultURL.path
+        self.maxSize = maxSize
+        self.height = hight
+        self.width = width
+        self.isGrayscale = isGrayscale
+    }
+}
+
+extension String {
+
+    func fileName() -> String {
+        return URL(fileURLWithPath: self).deletingPathExtension().lastPathComponent
+    }
+
+    func fileExtension() -> String {
+        return URL(fileURLWithPath: self).pathExtension
     }
 }

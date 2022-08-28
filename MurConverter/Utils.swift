@@ -11,10 +11,12 @@ class Utils {
     
     static func runScriptFromBundle(scriptName: String, args: [String] = [""]) -> Bool {
         let path = scriptPath(scriptName)
-        let arguments = args.joined(separator: " ")
-        let (output, exitCode) = Utils.executeShellCommand("\(path) \(arguments)")
+        var arguments = [path]
+        arguments.append(contentsOf: args)
+        
+        let (output, exitCode) = Utils.executeShellCommand(arguments)
         print(output)
-        if output.contains("Operation not permitted") || exitCode != 0 {
+        if output.contains("Operation not permitted") || exitCode != 0 || output.contains("Error") {
             return false
         }
         return true
@@ -27,13 +29,14 @@ class Utils {
     }
     
     @discardableResult
-    static func executeShellCommand(_ input: String) -> (output: String, exitCode: Int32) {
+    static func executeShellCommand(_ input: [String]) -> (output: String, exitCode: Int32) {
         // Create a Task instance
         let task = Process()
-
+        var args: [String] = []
+        args.append(contentsOf: input)
         // Set the task parameters
         task.launchPath = "/bin/zsh"
-        task.arguments = ["-c", input]
+        task.arguments = args
         task.environment = [
             "LC_ALL": "en_US.UTF-8",
             "HOME": NSHomeDirectory()

@@ -8,20 +8,21 @@
 
 /* Begin PBXBuildFile section */
 		6502060E28B94A6800057D6F /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6502060D28B94A6800057D6F /* SettingsViewController.swift */; };
-		6502061128B9619600057D6F /* convert.sh in Resources */ = {isa = PBXBuildFile; fileRef = 6502061028B9619600057D6F /* convert.sh */; };
 		6502061328B961BC00057D6F /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6502061228B961BC00057D6F /* Utils.swift */; };
 		6502061528BA4D9100057D6F /* DropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6502061428BA4D9100057D6F /* DropView.swift */; };
+		6502061728BB7FB700057D6F /* convert-image.sh in Resources */ = {isa = PBXBuildFile; fileRef = 6502061628BB7FB700057D6F /* convert-image.sh */; };
 		658EA9B1289FE99D00C71A36 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658EA9B0289FE99D00C71A36 /* AppDelegate.swift */; };
 		658EA9B5289FE99E00C71A36 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 658EA9B4289FE99E00C71A36 /* Assets.xcassets */; };
 		658EA9B8289FE99E00C71A36 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 658EA9B6289FE99E00C71A36 /* Main.storyboard */; };
 		658EA9C0289FEA4200C71A36 /* StatusMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658EA9BF289FEA4200C71A36 /* StatusMenuController.swift */; };
+		65BFEC7D28BBED25003933F8 /* TimerAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BFEC7C28BBED25003933F8 /* TimerAction.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		6502060D28B94A6800057D6F /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		6502061028B9619600057D6F /* convert.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = convert.sh; sourceTree = "<group>"; };
 		6502061228B961BC00057D6F /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		6502061428BA4D9100057D6F /* DropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropView.swift; sourceTree = "<group>"; };
+		6502061628BB7FB700057D6F /* convert-image.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "convert-image.sh"; sourceTree = "<group>"; };
 		658EA9AD289FE99D00C71A36 /* MurConverter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MurConverter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		658EA9B0289FE99D00C71A36 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		658EA9B4289FE99E00C71A36 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -29,6 +30,7 @@
 		658EA9B9289FE99E00C71A36 /* MurConverter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MurConverter.entitlements; sourceTree = "<group>"; };
 		658EA9BF289FEA4200C71A36 /* StatusMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusMenuController.swift; sourceTree = "<group>"; };
 		658EA9C1289FF0D100C71A36 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		65BFEC7C28BBED25003933F8 /* TimerAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerAction.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,7 +47,7 @@
 		6502060F28B9615C00057D6F /* Scripts */ = {
 			isa = PBXGroup;
 			children = (
-				6502061028B9619600057D6F /* convert.sh */,
+				6502061628BB7FB700057D6F /* convert-image.sh */,
 			);
 			path = Scripts;
 			sourceTree = "<group>";
@@ -75,6 +77,7 @@
 				658EA9BF289FEA4200C71A36 /* StatusMenuController.swift */,
 				6502060D28B94A6800057D6F /* SettingsViewController.swift */,
 				6502061428BA4D9100057D6F /* DropView.swift */,
+				65BFEC7C28BBED25003933F8 /* TimerAction.swift */,
 				658EA9B4289FE99E00C71A36 /* Assets.xcassets */,
 				658EA9B6289FE99E00C71A36 /* Main.storyboard */,
 				658EA9B9289FE99E00C71A36 /* MurConverter.entitlements */,
@@ -142,7 +145,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				658EA9B5289FE99E00C71A36 /* Assets.xcassets in Resources */,
-				6502061128B9619600057D6F /* convert.sh in Resources */,
+				6502061728BB7FB700057D6F /* convert-image.sh in Resources */,
 				658EA9B8289FE99E00C71A36 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -157,6 +160,7 @@
 				658EA9C0289FEA4200C71A36 /* StatusMenuController.swift in Sources */,
 				6502060E28B94A6800057D6F /* SettingsViewController.swift in Sources */,
 				658EA9B1289FE99D00C71A36 /* AppDelegate.swift in Sources */,
+				65BFEC7D28BBED25003933F8 /* TimerAction.swift in Sources */,
 				6502061328B961BC00057D6F /* Utils.swift in Sources */,
 				6502061528BA4D9100057D6F /* DropView.swift in Sources */,
 			);
@@ -309,7 +313,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = ua.pihsrawnaissurkcuf.MurConverter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -337,7 +341,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = ua.pihsrawnaissurkcuf.MurConverter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

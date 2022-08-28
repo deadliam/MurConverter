@@ -12,6 +12,7 @@ class StatusMenuController {
     
     var statusItem: NSStatusItem
     let popover = NSPopover()
+    let menu = NSMenu()
     
     init(image: NSImage) {
         self.statusItem = NSStatusBar.system.statusItem(withLength:NSStatusItem.squareLength)
@@ -24,52 +25,46 @@ class StatusMenuController {
     
     func setupStatusMenu() {
         statusItem.button?.target = self
-        statusItem.button?.action = #selector(self.statusMenuButtonClicked(_:))
+        statusItem.button?.action = #selector(self.statusBarButtonClicked(_:))
         statusItem.button?.sendAction(on: [.leftMouseDown, .rightMouseUp])
 //        statusItem.button?.title = "MurConverter"
-    }
-
-    @objc func statusMenuButtonClicked(_ sender: NSStatusBarButton) {
-
-        if let event = NSApp.currentEvent, event.isRightClickUp {
-            // handle right-click
-            showMenuAdditional()
-        } else {
-            // handle left-click
-            togglePopover(sender)
-        }
+        popover.behavior = .semitransient
+        menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
     }
     
+    
+    @objc func statusBarButtonClicked(_ sender: NSStatusBarButton) {
+        let event = NSApp.currentEvent!
+        if event.type == NSEvent.EventType.rightMouseUp {
+//            print("Right Click")
+            statusItem.menu = menu
+            statusItem.button?.performClick(nil)
+            statusItem.menu = nil
+        } else {
+//            print("Left Click")
+            togglePopover(sender)
+            statusItem.menu = nil
+        }
+    }
+
     @objc func togglePopover(_ sender: Any?) {
         popover.contentViewController = SettingsViewController.freshController()
         
         if popover.isShown {
-            closePopover(sender: sender)
+            closePopover(sender)
         } else {
-            showPopover(sender: sender)
+            showPopover(sender)
         }
     }
 
-    func showPopover(sender: Any?) {
+    @objc func showPopover(_ sender: Any?) {
         if let button = statusItem.button {
             popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
         }
     }
 
-    func closePopover(sender: Any?) {
+    func closePopover(_ sender: Any?) {
         popover.performClose(sender)
-    }
-    
-    func showMenuAdditional() {
-        let menu = NSMenu()
-
-//        let openWindow = NSMenuItem(title: "Open", action: #selector(openWindow) , keyEquivalent: "o")
-//        openWindow.target = self
-//        menu.addItem(openWindow)
-//        menu.addItem(NSMenuItem.separator())
-
-        menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
-        statusItem.menu = menu
     }
 }
 

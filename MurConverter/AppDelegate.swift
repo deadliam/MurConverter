@@ -11,7 +11,7 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
     
     
-    let statusItem = NSStatusBar.system.statusItem(withLength:NSStatusItem.squareLength)
+//    let statusItem = NSStatusBar.system.statusItem(withLength:NSStatusItem.squareLength)
     
     private(set) var image = NSImage(named: NSImage.Name("StatusItemIcon"))!
     lazy var menu = StatusMenuController(image: image)
