@@ -36,6 +36,7 @@ class SettingsViewController: NSViewController {
     @IBOutlet var resultLabel: NSTextField!
     
     @IBOutlet var grayscaleCheckbox: NSButton!
+    @IBOutlet var blurComboBox: NSComboBox!
     
     @IBOutlet var errorLabel: NSTextField!
     
@@ -68,6 +69,8 @@ class SettingsViewController: NSViewController {
         
         grayscaleCheckbox.setButtonType(.switch)
         grayscaleCheckbox.state = .off
+        
+        blurComboBox.selectItem(at: 0)
         
         resultLabel.isHidden = true
         convertButton.bezelColor = .systemGray
@@ -226,6 +229,13 @@ extension SettingsViewController {
             isGrayscale = true
         }
         
+        var isBlurred = false
+        var blurValue = 0.0
+        if let blurV = blurComboBox.selectedCell(), blurV.doubleValue != 0.0 {
+            isBlurred = true
+            blurValue = blurV.doubleValue
+        }
+        
         let paths = getFilesPaths(url: URL(fileURLWithPath: path))
         
         let resultImagesFolder = createResultFolder(at: URL(fileURLWithPath: path), withName: format)
@@ -236,7 +246,9 @@ extension SettingsViewController {
                               maxSize: maxSize,
                               hight: imageHeight,
                               width: imageWidth,
-                              isGrayscale: isGrayscale)
+                              isGrayscale: isGrayscale,
+                              isBlurred: isBlurred,
+                              blurValue: blurValue)
             rawImages.append(image)
         })
         
@@ -245,21 +257,36 @@ extension SettingsViewController {
     
     func composeArguments(image: Image) -> [String] {
         var args: [String] = []
+        
+        let imagemagicPath = Utils.scriptPath("convert")
         // 1
-        args.append(image.sourcePath.replacingOccurrences(of: " ", with: "%%%"))
+        args.append(imagemagicPath)
         // 2
-        args.append(image.resultPath.replacingOccurrences(of: " ", with: "%%%"))
+        args.append(image.sourcePath.replacingOccurrences(of: " ", with: "%%%"))
         // 3
-        args.append(image.resultExtension)
+        args.append(image.resultPath.replacingOccurrences(of: " ", with: "%%%"))
         // 4
+        args.append(image.resultExtension)
+        // 5
         var isGrayscaleLiteral = "false"
         if image.isGrayscale {
             isGrayscaleLiteral = "true"
         }
         args.append(isGrayscaleLiteral)
-        // 5
-        args.append(image.height != nil ? "\(image.height!)" : " ")
+        
         // 6
+        var isBlurredLiteral = "false"
+        if image.isBlurred {
+            isBlurredLiteral = "true"
+        }
+        args.append(isBlurredLiteral)
+        
+        // 7
+        args.append("\(image.blurValue)")
+    
+        // 8
+        args.append(image.height != nil ? "\(image.height!)" : " ")
+        // 9
         args.append(image.width != nil ? "\(image.width!)" : " ")
        
         return args
@@ -319,7 +346,7 @@ extension SettingsViewController {
             while sizeDoesntMeetsExpectations(expected: expectedSize, actual: actualSize) {
                 var arguments = composeArguments(image: image)
                 if image.resultExtension == "jpeg" {
-                    // 7 argument
+                    // 10 argument
                     arguments.append("\(quality)")
                 } else {
                     arguments.append("0")
@@ -349,8 +376,18 @@ class Image {
     let height: Int?
     let width: Int?
     let isGrayscale: Bool
+    let isBlurred: Bool
+    let blurValue: Double
     
-    init(sourcePath: String, resultPathFolder: String, resultExtension: String, maxSize: Int?, hight: Int?, width: Int?, isGrayscale: Bool) {
+    init(sourcePath: String,
+         resultPathFolder: String,
+         resultExtension: String,
+         maxSize: Int?,
+         hight: Int?,
+         width: Int?,
+         isGrayscale: Bool,
+         isBlurred: Bool,
+         blurValue: Double) {
         self.sourcePath = sourcePath
         self.resultExtension = resultExtension
         let sourceURL = URL(fileURLWithPath: sourcePath)
@@ -364,6 +401,8 @@ class Image {
         self.height = hight
         self.width = width
         self.isGrayscale = isGrayscale
+        self.isBlurred = isBlurred
+        self.blurValue = blurValue
     }
 }
 

@@ -16,6 +16,7 @@
 		658EA9B8289FE99E00C71A36 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 658EA9B6289FE99E00C71A36 /* Main.storyboard */; };
 		658EA9C0289FEA4200C71A36 /* StatusMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658EA9BF289FEA4200C71A36 /* StatusMenuController.swift */; };
 		65BFEC7D28BBED25003933F8 /* TimerAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BFEC7C28BBED25003933F8 /* TimerAction.swift */; };
+		65BFEC7F28BBFDB1003933F8 /* convert in Resources */ = {isa = PBXBuildFile; fileRef = 65BFEC7E28BBFDB1003933F8 /* convert */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		658EA9BF289FEA4200C71A36 /* StatusMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusMenuController.swift; sourceTree = "<group>"; };
 		658EA9C1289FF0D100C71A36 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		65BFEC7C28BBED25003933F8 /* TimerAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerAction.swift; sourceTree = "<group>"; };
+		65BFEC7E28BBFDB1003933F8 /* convert */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = convert; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +50,7 @@
 			isa = PBXGroup;
 			children = (
 				6502061628BB7FB700057D6F /* convert-image.sh */,
+				65BFEC7E28BBFDB1003933F8 /* convert */,
 			);
 			path = Scripts;
 			sourceTree = "<group>";
@@ -144,6 +147,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65BFEC7F28BBFDB1003933F8 /* convert in Resources */,
 				658EA9B5289FE99E00C71A36 /* Assets.xcassets in Resources */,
 				6502061728BB7FB700057D6F /* convert-image.sh in Resources */,
 				658EA9B8289FE99E00C71A36 /* Main.storyboard in Resources */,
@@ -313,7 +317,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = ua.pihsrawnaissurkcuf.MurConverter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -341,7 +345,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = ua.pihsrawnaissurkcuf.MurConverter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
