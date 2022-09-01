@@ -7,6 +7,7 @@
 
 import Foundation
 import AppKit
+import CoreImage
 
 class SettingsViewController: NSViewController {
     
@@ -36,6 +37,7 @@ class SettingsViewController: NSViewController {
     @IBOutlet var resultLabel: NSTextField!
     
     @IBOutlet var grayscaleCheckbox: NSButton!
+    @IBOutlet var sepiaCheckbox: NSButton!
     @IBOutlet var blurComboBox: NSComboBox!
     
     @IBOutlet var errorLabel: NSTextField!
@@ -69,6 +71,9 @@ class SettingsViewController: NSViewController {
         
         grayscaleCheckbox.setButtonType(.switch)
         grayscaleCheckbox.state = .off
+        
+        sepiaCheckbox.setButtonType(.switch)
+        sepiaCheckbox.state = .off
         
         blurComboBox.selectItem(at: 0)
         
@@ -236,6 +241,11 @@ extension SettingsViewController {
             blurValue = blurV.doubleValue
         }
         
+        var isSepia = false
+        if sepiaCheckbox.state == .on {
+            isSepia = true
+        }
+        
         let paths = getFilesPaths(url: URL(fileURLWithPath: path))
         
         let resultImagesFolder = createResultFolder(at: URL(fileURLWithPath: path), withName: format)
@@ -248,7 +258,8 @@ extension SettingsViewController {
                               width: imageWidth,
                               isGrayscale: isGrayscale,
                               isBlurred: isBlurred,
-                              blurValue: blurValue)
+                              blurValue: blurValue,
+                              isSepia: isSepia)
             rawImages.append(image)
         })
         
@@ -258,35 +269,32 @@ extension SettingsViewController {
     func composeArguments(image: Image) -> [String] {
         var args: [String] = []
         
-        let imagemagicPath = Utils.scriptPath("convert")
         // 1
-        args.append(imagemagicPath)
-        // 2
         args.append(image.sourcePath.replacingOccurrences(of: " ", with: "%%%"))
-        // 3
+        // 2
         args.append(image.resultPath.replacingOccurrences(of: " ", with: "%%%"))
-        // 4
+        // 3
         args.append(image.resultExtension)
-        // 5
+        // 4
         var isGrayscaleLiteral = "false"
         if image.isGrayscale {
             isGrayscaleLiteral = "true"
         }
         args.append(isGrayscaleLiteral)
         
-        // 6
+        // 5
         var isBlurredLiteral = "false"
         if image.isBlurred {
             isBlurredLiteral = "true"
         }
         args.append(isBlurredLiteral)
         
-        // 7
+        // 6
         args.append("\(image.blurValue)")
     
-        // 8
+        // 7
         args.append(image.height != nil ? "\(image.height!)" : " ")
-        // 9
+        // 8
         args.append(image.width != nil ? "\(image.width!)" : " ")
        
         return args
@@ -346,7 +354,7 @@ extension SettingsViewController {
             while sizeDoesntMeetsExpectations(expected: expectedSize, actual: actualSize) {
                 var arguments = composeArguments(image: image)
                 if image.resultExtension == "jpeg" {
-                    // 10 argument
+                    // 9 argument
                     arguments.append("\(quality)")
                 } else {
                     arguments.append("0")
@@ -360,6 +368,14 @@ extension SettingsViewController {
                 } else {
                     actualSize = Int(checkImageSize(image: image)) / 1000000
                     quality -= 3
+                }
+                
+                if image.isBlurred {
+                    MCFilter.filterGaussianBlurImage(url: URL(fileURLWithPath: image.resultPath), filterValue: image.blurValue)
+                }
+                
+                if image.isSepia {
+                    MCFilter.filterSepiaImage(url: URL(fileURLWithPath: image.resultPath))
                 }
             }
         }
@@ -377,6 +393,7 @@ class Image {
     let width: Int?
     let isGrayscale: Bool
     let isBlurred: Bool
+    let isSepia: Bool
     let blurValue: Double
     
     init(sourcePath: String,
@@ -387,7 +404,8 @@ class Image {
          width: Int?,
          isGrayscale: Bool,
          isBlurred: Bool,
-         blurValue: Double) {
+         blurValue: Double,
+         isSepia: Bool) {
         self.sourcePath = sourcePath
         self.resultExtension = resultExtension
         let sourceURL = URL(fileURLWithPath: sourcePath)
@@ -403,6 +421,7 @@ class Image {
         self.isGrayscale = isGrayscale
         self.isBlurred = isBlurred
         self.blurValue = blurValue
+        self.isSepia = isSepia
     }
 }
 

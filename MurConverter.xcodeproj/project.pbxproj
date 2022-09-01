@@ -16,7 +16,8 @@
 		658EA9B8289FE99E00C71A36 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 658EA9B6289FE99E00C71A36 /* Main.storyboard */; };
 		658EA9C0289FEA4200C71A36 /* StatusMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658EA9BF289FEA4200C71A36 /* StatusMenuController.swift */; };
 		65BFEC7D28BBED25003933F8 /* TimerAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BFEC7C28BBED25003933F8 /* TimerAction.swift */; };
-		65BFEC7F28BBFDB1003933F8 /* convert in Resources */ = {isa = PBXBuildFile; fileRef = 65BFEC7E28BBFDB1003933F8 /* convert */; };
+		65CC8B5B28C1298A00DF0B53 /* MCFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65CC8B5A28C1298A00DF0B53 /* MCFilter.swift */; };
+		65CC8B5F28C1350E00DF0B53 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65CC8B5E28C1350E00DF0B53 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,7 +33,8 @@
 		658EA9BF289FEA4200C71A36 /* StatusMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusMenuController.swift; sourceTree = "<group>"; };
 		658EA9C1289FF0D100C71A36 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		65BFEC7C28BBED25003933F8 /* TimerAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerAction.swift; sourceTree = "<group>"; };
-		65BFEC7E28BBFDB1003933F8 /* convert */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = convert; sourceTree = "<group>"; };
+		65CC8B5A28C1298A00DF0B53 /* MCFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCFilter.swift; sourceTree = "<group>"; };
+		65CC8B5E28C1350E00DF0B53 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,7 +52,6 @@
 			isa = PBXGroup;
 			children = (
 				6502061628BB7FB700057D6F /* convert-image.sh */,
-				65BFEC7E28BBFDB1003933F8 /* convert */,
 			);
 			path = Scripts;
 			sourceTree = "<group>";
@@ -85,6 +86,8 @@
 				658EA9B6289FE99E00C71A36 /* Main.storyboard */,
 				658EA9B9289FE99E00C71A36 /* MurConverter.entitlements */,
 				6502061228B961BC00057D6F /* Utils.swift */,
+				65CC8B5A28C1298A00DF0B53 /* MCFilter.swift */,
+				65CC8B5E28C1350E00DF0B53 /* Extensions.swift */,
 			);
 			path = MurConverter;
 			sourceTree = "<group>";
@@ -147,7 +150,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65BFEC7F28BBFDB1003933F8 /* convert in Resources */,
 				658EA9B5289FE99E00C71A36 /* Assets.xcassets in Resources */,
 				6502061728BB7FB700057D6F /* convert-image.sh in Resources */,
 				658EA9B8289FE99E00C71A36 /* Main.storyboard in Resources */,
@@ -162,8 +164,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				658EA9C0289FEA4200C71A36 /* StatusMenuController.swift in Sources */,
+				65CC8B5F28C1350E00DF0B53 /* Extensions.swift in Sources */,
 				6502060E28B94A6800057D6F /* SettingsViewController.swift in Sources */,
 				658EA9B1289FE99D00C71A36 /* AppDelegate.swift in Sources */,
+				65CC8B5B28C1298A00DF0B53 /* MCFilter.swift in Sources */,
 				65BFEC7D28BBED25003933F8 /* TimerAction.swift in Sources */,
 				6502061328B961BC00057D6F /* Utils.swift in Sources */,
 				6502061528BA4D9100057D6F /* DropView.swift in Sources */,

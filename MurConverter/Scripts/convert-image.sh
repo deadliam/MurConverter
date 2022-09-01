@@ -1,22 +1,20 @@
 #! /bin/bash
 
-IMAGEMAGIC_CMD=$1
-
-SOURCE_FILE=$2
+SOURCE_FILE=$1
 SOURCE_FILE=$(echo "$SOURCE_FILE" | sed "s/%%%/ /g")
 
-RESULT_FILE=$3
+RESULT_FILE=$2
 RESULT_FILE=$(echo "$RESULT_FILE" | sed "s/%%%/ /g")
 
-RESULT_FORMAT=$4
-IS_GRAYSCALE=$5
-IS_BLURRED=$6
-BLUR_VALUE=$7
-RESAMPLE_HEIGHT_VALUE=$8
-RESAMPLE_WIDTH_VALUE=$9
+RESULT_FORMAT=$3
+IS_GRAYSCALE=$4
+IS_BLURRED=$5
+BLUR_VALUE=$6
+RESAMPLE_HEIGHT_VALUE=$7
+RESAMPLE_WIDTH_VALUE=$8
 
 # Should be always last argument!
-QUALITY=$10
+QUALITY=$9
 
 RESAMPLE_HEIGHT_OPTION=""
 RESAMPLE_WIDTH_OPTION=""
@@ -44,14 +42,6 @@ fi
 
 if $IS_GRAYSCALE; then
     $SIPS_CMD -M /System/Library/ColorSync/Profiles/Generic\ Gray\ Profile.icc relative "${RESULT_FILE}"
-fi
-
-if $IS_BLURRED; then
-    RESULT_FILES_DIR="${RESULT_FILE%/*}"
-    FILENAME=$(basename -- "$RESULT_FILE")
-    EXTENSION="${FILENAME##*.}"
-    FILENAME="${FILENAME%.*}"
-    $IMAGEMAGIC_CMD "${RESULT_FILE}" -filter Gaussian -define filter:sigma=$BLUR_VALUE -resize 100% "${RESULT_FILES_DIR}/${FILENAME}-blur.${EXTENSION}"
 fi
 
 echo "2 - $SOURCE_FILE"

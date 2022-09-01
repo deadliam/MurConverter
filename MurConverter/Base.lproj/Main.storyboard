@@ -872,6 +872,14 @@
                                     </objectValues>
                                 </comboBoxCell>
                             </comboBox>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SjR-Sg-Qnq">
+                                <rect key="frame" x="122" y="82" width="60" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="Sepia" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="jBK-ND-GfU">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
                             <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LCz-Vp-hcz" customClass="DropView" customModule="MurConverter" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -897,6 +905,7 @@
                         <outlet property="rawImagesPathLabel" destination="6Iv-4e-6De" id="Z1O-Hw-aBj"/>
                         <outlet property="rawImagesPathTitleLabel" destination="Hwo-mT-L7q" id="PID-0S-HUE"/>
                         <outlet property="resultLabel" destination="aUx-xH-Ilh" id="WuC-Dy-Vuk"/>
+                        <outlet property="sepiaCheckbox" destination="SjR-Sg-Qnq" id="wR9-b5-7Y1"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

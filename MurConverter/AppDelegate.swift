@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  MurConverter
+//  Sweet Dreams
 //
 //  Created by Anatolii Kasianov on 07.08.2022.
 //
@@ -10,7 +10,7 @@ import Cocoa
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
     
-    
+    var timerAction: TimerAction?
 //    let statusItem = NSStatusBar.system.statusItem(withLength:NSStatusItem.squareLength)
     
     private(set) var image = NSImage(named: NSImage.Name("StatusItemIcon"))!
@@ -21,7 +21,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        
+//        timerAction = TimerAction()
+//        timerAction?.run()
         menu.setupStatusMenu()
     }
 
