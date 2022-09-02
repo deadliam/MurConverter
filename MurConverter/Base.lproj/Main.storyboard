@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -696,6 +697,9 @@
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
+                                <connections>
+                                    <action selector="maxSizeField:" target="XfG-lQ-9wD" id="m3Q-rh-bgu"/>
+                                </connections>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DjW-k4-frm">
                                 <rect key="frame" x="159" y="192" width="269" height="16"/>
@@ -718,15 +722,21 @@
                                         <string>png</string>
                                     </objectValues>
                                 </comboBoxCell>
+                                <connections>
+                                    <action selector="extensionCombobox:" target="XfG-lQ-9wD" id="aLt-fO-koS"/>
+                                </connections>
                             </comboBox>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m1I-EC-aZd">
                                 <rect key="frame" x="32" y="163" width="96" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Hight in px" drawsBackground="YES" id="FcI-UP-Ppd">
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Height in px" drawsBackground="YES" id="FcI-UP-Ppd">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
+                                <connections>
+                                    <action selector="heightField:" target="XfG-lQ-9wD" id="1T3-dH-fhV"/>
+                                </connections>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TeD-Aq-YVa">
                                 <rect key="frame" x="159" y="163" width="191" height="16"/>
@@ -745,6 +755,9 @@
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
+                                <connections>
+                                    <action selector="widthField:" target="XfG-lQ-9wD" id="UYU-BA-jZ2"/>
+                                </connections>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FK1-10-oeF">
                                 <rect key="frame" x="159" y="134" width="187" height="16"/>
@@ -874,6 +887,9 @@
                                         <string>100.0</string>
                                     </objectValues>
                                 </comboBoxCell>
+                                <connections>
+                                    <action selector="blurCombobox:" target="XfG-lQ-9wD" id="4O1-NU-FLP"/>
+                                </connections>
                             </comboBox>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SjR-Sg-Qnq">
                                 <rect key="frame" x="122" y="82" width="60" height="18"/>
@@ -887,7 +903,7 @@
                                 </connections>
                             </button>
                             <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LCz-Vp-hcz" customClass="DropView" customModule="MurConverter" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="116" width="480" height="270"/>
+                                <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>
                         </subviews>

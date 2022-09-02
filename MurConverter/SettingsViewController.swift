@@ -17,6 +17,20 @@ class SettingsViewController: NSViewController {
     var imageWidth: Int?
     var filesPaths: [String]?
     
+    // change to save states
+    var saveValuesState = false
+   
+    enum SavedValuesKeys: String {
+        case resultFileExtension = "extension"
+        case resultFileMaxSize = "maxSize"
+        case resultFileHeight = "height"
+        case resultFileWidth = "width"
+        case resultFileBlurValue = "blurValue"
+        case resultFileIsGrayscale = "isGrayscale"
+        case resultFileIsSepia = "isSepia"
+        case resultFilesPathAray = "paths"
+    }
+    
     let rawImagesPathTitleDefaultValue = "Images: "
     
     @IBOutlet var dropHereLabel: NSTextField!
@@ -72,21 +86,22 @@ class SettingsViewController: NSViewController {
         progressIndicatior.style = .spinning
         
         grayscaleCheckbox.setButtonType(.switch)
-        grayscaleCheckbox.state = .off
+        grayscaleCheckbox.state = UserDefaults.standard.bool(forKey: SavedValuesKeys.resultFileIsGrayscale.rawValue) == true ? .on : .off
         
         sepiaCheckbox.setButtonType(.switch)
-        sepiaCheckbox.state = .off
+        sepiaCheckbox.state = UserDefaults.standard.bool(forKey: SavedValuesKeys.resultFileIsSepia.rawValue) == true ? .on : .off
         
-        blurComboBox.selectItem(at: 0)
+        blurComboBox.selectItem(at: UserDefaults.standard.integer(forKey: SavedValuesKeys.resultFileBlurValue.rawValue))
         
         resultLabel.isHidden = true
+        
         convertButton.bezelColor = .systemGray
         dropHereLabel.isHidden = false
         errorLabel.isHidden = true
         rawImagesPathLabel.isHidden = true
         
         rawImagesPathTitleLabel.isHidden = true
-        filesFormatComboBox.selectItem(at: 0)
+        filesFormatComboBox.selectItem(at: UserDefaults.standard.integer(forKey: SavedValuesKeys.resultFileExtension.rawValue))
 
         convertButton.bezelColor = .systemGray
         convertButton.setButtonType(.momentaryChange)
@@ -179,14 +194,66 @@ extension SettingsViewController {
         if sepiaCheckbox.state == .on {
             sepiaCheckbox.state = .off
         }
+        if saveValuesState {
+            if sender.state == .on {
+                UserDefaults.standard.set(true, forKey: SavedValuesKeys.resultFileIsGrayscale.rawValue)
+                UserDefaults.standard.set(false, forKey: SavedValuesKeys.resultFileIsSepia.rawValue)
+            } else {
+                UserDefaults.standard.set(false, forKey: SavedValuesKeys.resultFileIsGrayscale.rawValue)
+                UserDefaults.standard.set(true, forKey: SavedValuesKeys.resultFileIsSepia.rawValue)
+            }
+        } else {
+            UserDefaults.standard.set(false, forKey: SavedValuesKeys.resultFileIsSepia.rawValue)
+            UserDefaults.standard.set(false, forKey: SavedValuesKeys.resultFileIsGrayscale.rawValue)
+        }
     }
     
     @IBAction func checkSepiaCheckbox(_ sender: NSButton) {
         if grayscaleCheckbox.state == .on {
             grayscaleCheckbox.state = .off
         }
+        if saveValuesState {
+            if sender.state == .on {
+                UserDefaults.standard.set(true, forKey: SavedValuesKeys.resultFileIsSepia.rawValue)
+                UserDefaults.standard.set(false, forKey: SavedValuesKeys.resultFileIsGrayscale.rawValue)
+            } else {
+                UserDefaults.standard.set(false, forKey: SavedValuesKeys.resultFileIsSepia.rawValue)
+                UserDefaults.standard.set(true, forKey: SavedValuesKeys.resultFileIsGrayscale.rawValue)
+            }
+        } else {
+            UserDefaults.standard.set(false, forKey: SavedValuesKeys.resultFileIsSepia.rawValue)
+            UserDefaults.standard.set(false, forKey: SavedValuesKeys.resultFileIsGrayscale.rawValue)
+        }
+    }
+    
+    @IBAction func extensionCombobox(_ sender: NSComboBox) {
+        if saveValuesState {
+            UserDefaults.standard.set(sender.indexOfSelectedItem, forKey: SavedValuesKeys.resultFileExtension.rawValue)
+        } else {
+            UserDefaults.standard.set(0, forKey: SavedValuesKeys.resultFileExtension.rawValue)
+        }
+    }
+    
+    @IBAction func blurCombobox(_ sender: NSComboBox) {
+        if saveValuesState {
+            UserDefaults.standard.set(sender.indexOfSelectedItem, forKey: SavedValuesKeys.resultFileBlurValue.rawValue)
+        } else {
+            UserDefaults.standard.set(0, forKey: SavedValuesKeys.resultFileBlurValue.rawValue)
+        }
+    }
+    
+    @IBAction func maxSizeField(_ sender: NSTextField) {
+//        savedValues[SavedValuesKeys.reultFileMaxSize.rawValue] = sender.integerValue
     }
 
+    @IBAction func heightField(_ sender: NSTextField) {
+//        savedValues[SavedValuesKeys.reultFileHeight.rawValue] = sender.integerValue
+    }
+
+    @IBAction func widthField(_ sender: NSTextField) {
+//        savedValues[SavedValuesKeys.reultFileWidth.rawValue] = sender.integerValue
+    }
+    
     @IBAction func convert(_ sender: NSButton) {
         
         resultLabel.isHidden = true
