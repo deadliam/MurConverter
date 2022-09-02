@@ -831,21 +831,24 @@
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="checkGrayscaleCheckbox:" target="XfG-lQ-9wD" id="FPY-QS-C8v"/>
+                                </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Iv-4e-6De">
-                                <rect key="frame" x="30" y="43" width="430" height="16"/>
+                                <rect key="frame" x="30" y="45" width="432" height="14"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="Raw images path" id="xAr-kA-Zlw">
-                                    <font key="font" metaFont="system"/>
+                                <textFieldCell key="cell" controlSize="small" alignment="left" title="Raw images path" id="xAr-kA-Zlw">
+                                    <font key="font" metaFont="smallSystem"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hwo-mT-L7q">
-                                <rect key="frame" x="30" y="59" width="98" height="16"/>
+                                <rect key="frame" x="30" y="59" width="220" height="14"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Images Path:" id="P4q-pq-hvc">
-                                    <font key="font" metaFont="system"/>
+                                <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Images:" id="P4q-pq-hvc">
+                                    <font key="font" metaFont="smallSystem"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
@@ -879,9 +882,12 @@
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="checkSepiaCheckbox:" target="XfG-lQ-9wD" id="gkW-cO-1XG"/>
+                                </connections>
                             </button>
                             <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LCz-Vp-hcz" customClass="DropView" customModule="MurConverter" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                                <rect key="frame" x="0.0" y="116" width="480" height="270"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>
                         </subviews>

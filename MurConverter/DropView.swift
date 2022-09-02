@@ -9,7 +9,7 @@ import Cocoa
 
 class DropView: NSView {
     
-    var onDrop: ((String) -> Void)?
+    var onDrop: (([String]) -> Void)?
     
     var rawImagesPath: String = ""
     
@@ -49,11 +49,12 @@ class DropView: NSView {
 //            }
 //        }
         let fileManager = FileManager.default
-        var isDir : ObjCBool = false
+        var isDir: ObjCBool = false
         if fileManager.fileExists(atPath: path, isDirectory: &isDir) {
             if isDir.boolValue {
                 return true
             } else {
+                return true
                 // file exists and is not a directory
             }
         }
@@ -70,11 +71,13 @@ class DropView: NSView {
 
     override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
         guard let pasteboard = sender.draggingPasteboard.propertyList(forType: NSPasteboard.PasteboardType(rawValue: "NSFilenamesPboardType")) as? NSArray,
-              let path = pasteboard[0] as? String
+              let paths = pasteboard as? [String]
+                
+//            let path = pasteboard[0] as? String
         else { return false }
         
-        print("FilePath: \(path)")
-        onDrop?(path)
+        print("FilePath: \(paths)")
+        onDrop?(paths)
         
         return true
     }

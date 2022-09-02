@@ -15,7 +15,9 @@ class SettingsViewController: NSViewController {
     var maxSize: Int?
     var imageHeight: Int?
     var imageWidth: Int?
-    var filesPath: String?
+    var filesPaths: [String]?
+    
+    let rawImagesPathTitleDefaultValue = "Images: "
     
     @IBOutlet var dropHereLabel: NSTextField!
     @IBOutlet var rawImagesPathLabel: NSTextField!
@@ -82,6 +84,7 @@ class SettingsViewController: NSViewController {
         dropHereLabel.isHidden = false
         errorLabel.isHidden = true
         rawImagesPathLabel.isHidden = true
+        
         rawImagesPathTitleLabel.isHidden = true
         filesFormatComboBox.selectItem(at: 0)
 
@@ -90,13 +93,14 @@ class SettingsViewController: NSViewController {
         convertButton.title = ActionButtonStates.readyToConvert.rawValue
         
         rawImagesPathLabel.stringValue = ""
+        rawImagesPathTitleLabel.stringValue = rawImagesPathTitleDefaultValue
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        dropView.onDrop = { [weak self] path in
-            self?.storeDropFilesPath(path: path)
+        dropView.onDrop = { [weak self] paths in
+            self?.storeDropFilesPath(paths: paths)
             self?.resultLabel.isHidden = true
         }
     }
@@ -120,7 +124,7 @@ class SettingsViewController: NSViewController {
             return false
         }
         
-        if filesPath == nil || filesPath == "" {
+        if filesPaths == nil || filesPaths?[0] == "" {
             printError(error: MCErrorType.MCErrorFilesPathIsRequired.rawValue)
             return false
         }
@@ -131,10 +135,25 @@ class SettingsViewController: NSViewController {
         return true
     }
     
-    func storeDropFilesPath(path: String) {
-        filesPath = path
+    func storeDropFilesPath(paths: [String]) {
+        
         rawImagesPathLabel.isHidden = false
-        rawImagesPathLabel.stringValue = path
+        
+        let fileManager = FileManager.default
+        var isDir: ObjCBool = false
+        if fileManager.fileExists(atPath: paths[0], isDirectory: &isDir) {
+            if isDir.boolValue && paths.count == 1 {
+                filesPaths = getFilesPaths(url: URL(fileURLWithPath: paths[0]))
+                rawImagesPathLabel.stringValue = paths[0]
+                rawImagesPathTitleLabel.stringValue = rawImagesPathTitleDefaultValue
+            } else {
+                filesPaths = paths
+                let path: NSString = NSString(string: paths[0]).deletingLastPathComponent as NSString
+                rawImagesPathTitleLabel.stringValue = rawImagesPathTitleDefaultValue.appending("\(paths.count) file(s) addded")
+                rawImagesPathLabel.stringValue = "\(path)"
+            }
+        }
+
         rawImagesPathTitleLabel.isHidden = false
         dropHereLabel.isHidden = true
     }
@@ -155,6 +174,18 @@ extension SettingsViewController {
 // MARK: Actions
 
 extension SettingsViewController {
+    
+    @IBAction func checkGrayscaleCheckbox(_ sender: NSButton) {
+        if sepiaCheckbox.state == .on {
+            sepiaCheckbox.state = .off
+        }
+    }
+    
+    @IBAction func checkSepiaCheckbox(_ sender: NSButton) {
+        if grayscaleCheckbox.state == .on {
+            grayscaleCheckbox.state = .off
+        }
+    }
 
     @IBAction func convert(_ sender: NSButton) {
         
@@ -202,7 +233,6 @@ extension SettingsViewController {
         var urls: [URL] = []
         do {
             urls = try FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
-
         } catch {
             return nil
         }
@@ -222,9 +252,7 @@ extension SettingsViewController {
     func gatherRawImages() -> [Image]? {
         
         var rawImages: [Image] = []
-        guard let path = filesPath else {
-            return nil
-        }
+
         guard let format = filesFormat else {
             return nil
         }
@@ -246,9 +274,14 @@ extension SettingsViewController {
             isSepia = true
         }
         
-        let paths = getFilesPaths(url: URL(fileURLWithPath: path))
+        var paths: [String]?
+        var resultsFolderPath: NSString?
+        if let filesPaths = filesPaths {
+            paths = filesPaths
+            resultsFolderPath = NSString(string: paths![0]).deletingLastPathComponent as NSString
+        }
+        let resultImagesFolder = createResultFolder(at: URL(fileURLWithPath: resultsFolderPath! as String), withName: format)
         
-        let resultImagesFolder = createResultFolder(at: URL(fileURLWithPath: path), withName: format)
         paths?.forEach({
             let image = Image(sourcePath: $0,
                               resultPathFolder: resultImagesFolder,
@@ -329,7 +362,7 @@ extension SettingsViewController {
         let dateString = df.string(from: date)
         let resultImagesDirectory = "\(withName)-\(dateString)"
         do {
-            try FileManager.default.createDirectory(at: at .appendingPathComponent(resultImagesDirectory), withIntermediateDirectories: false)
+            try FileManager.default.createDirectory(at: at.appendingPathComponent(resultImagesDirectory), withIntermediateDirectories: false)
         } catch {
             print("Can't create dir at: \(at.path) with error: \(error)")
         }
